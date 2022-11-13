@@ -136,7 +136,6 @@ Sobre o modo de comando, o que você precisa saber são os comandos. Vamos
 mostrar alguns aqui, mas existem muitos outros. A tabela abaixo lista
 alguns dos mais comuns:
 
- |-------------|------------------------------------------------------------
  |**Comando**  |**Descrição**
  |-------------|------------------------------------------------------------
  |:q           |Sai do editor (*quit*)
@@ -608,7 +607,7 @@ cat groceries.txt
 O uso básico do make é:
 
 ```bash
-make \<target\>
+make <target>
 ```
 
 Com este comando, o make irá procurar um Makefile (que é apenas um
