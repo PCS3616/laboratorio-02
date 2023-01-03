@@ -213,7 +213,7 @@ int main(int argc, char** argv) {
   int n;
   scanf("%d", &n);
 
-  printf("%dn", fatorial(n));
+  printf("%d\n", fatorial(n));
 
   return 0;
 }
@@ -237,7 +237,7 @@ $ ./fatorial
 24
 ```
 
-**Entrega**: o arquivo `fatorial.c` (na pasta `submission`)
+**Entrega**: o arquivo `fatorial.c` na pasta `submission`
 
 **Atenção**: o algoritmo será corrigido automaticamente. Para que ele
 possa funcionar corretamente, em todo o corpo do código, receba apenas
@@ -281,7 +281,7 @@ esse\...
     fgets(buf, 1024, stdin);
     
     printf("Texto digitado foi:n");
-    printf("%sn", buf);
+    printf("%s\n", buf);
     
     return 1;
   }
@@ -292,7 +292,7 @@ Compile o arquivo usando o gcc e o execute, para verificarmos se
 realmente existe um problema:
 
 ```bash
-gcc -o segfault-example segfault-example.c\
+gcc -o segfault-example segfault-example.c
 ./segfault-example
 ```
 
@@ -631,8 +631,7 @@ exemplo acima. Em seguida, criar um shell script chamado
 makefile-test.sh que chama, um por um, todos os targets possíveis desse
 Makefile (dica: são 5).
 
-**Entrega:** Um zip (makefile-test.zip) contendo o shell script (
-makefile-test.sh )
+**Entrega:** Um shell script (`./makefile-test.sh` ) na pasta `submission`
 
 **Exercício 1.3:** criar um Makefile (usando o vim) para o programa do
 fatorial. O Makefile deve definir as seguintes regras:
@@ -649,14 +648,7 @@ fatorial. O Makefile deve definir as seguintes regras:
 
 4.  Remover o executável. Nome do target: clean.
 
-**Entrega:** Um arquivo zip com nome lab2-atv3-XXXXXX.zip e com os
-seguintes arquivos:
-
-```
-lab2-atv3-XXXXXX.zip/
-├── fatorial.c
-└── Makefile
-```
+**Entrega:** Um arquivo `Makefile` na pasta `submission`.
 
 **Expressões regulares**
 

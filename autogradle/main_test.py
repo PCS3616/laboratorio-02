@@ -49,3 +49,28 @@ Tomate
 
     assert(result in p.stdout)
     assert(not groceries.exists())
+
+def test_1_3():
+    makefile = submission_path / 'Makefile'
+    executable = submission_path / 'fatorial'
+    assert(makefile.exists())
+
+    # Tem que ter a dependencia do arquivo, deve rodar dois
+    p = subprocess.run(['make', 'run'], capture_output=True, text=True, cwd=makefile.parent.absolute())
+    assert(p.returncode == 0)
+    assert(executable.exists())
+
+    # Compile
+    p = subprocess.run(['make', 'fatorial'], capture_output=True, text=True, cwd=submission_path.absolute())
+
+    assert(p.returncode == 0)
+    assert(executable.exists())
+    assert('is up to date' in p.stdout)
+
+    p = subprocess.run(['make', 'run_gdb'], capture_output=True, text=True, cwd=makefile.parent.absolute())
+    assert(p.returncode == 0)
+
+    p = subprocess.run(['make', 'clean'], capture_output=True, text=True, cwd=makefile.parent.absolute())
+    assert(p.returncode == 0)
+    assert(not executable.exists())
+
