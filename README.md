@@ -100,13 +100,13 @@ O vim é um editor de texto usado diretamente pela linha de comando
 editar um arquivo de texto com o vim, basta digitar:
 
 ```bash
-vim \<caminho_para_o\_arquivo\>
+vim <caminho_para_o_arquivo>
 ```
 
 Por exemplo:
 
 ```bash
-vim \~/.bashrc
+vim ~/.bashrc
 ```
 
 O vim funciona de uma maneira um pouco diferente da que você
@@ -178,7 +178,7 @@ complexo. No entanto, para casos de uso simples, a linha de comando é
 igualmente simples:
 
 ```bash
-gcc -o \<arquivo_de_saida\> \<arquivo_de_entrada\>
+gcc -o <arquivo_de_saida> <arquivo_de_entrada>
 ```
 
 Por exemplo:
@@ -209,7 +209,7 @@ int fatorial(int n);
 /**
 * Ponto de entrada do programa (entry point).
 */
-  int main(int argc, char** argv) {
+int main(int argc, char** argv) {
   int n;
   scanf("%d", &n);
 
@@ -237,7 +237,7 @@ $ ./fatorial
 24
 ```
 
-**Entrega**: o arquivo `fatorial.c`
+**Entrega**: o arquivo `fatorial.c` (na pasta `submission`)
 
 **Atenção**: o algoritmo será corrigido automaticamente. Para que ele
 possa funcionar corretamente, em todo o corpo do código, receba apenas
