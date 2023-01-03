@@ -2,6 +2,7 @@ import subprocess
 from pathlib import Path
 
 submission_path = Path("./submission")
+autogradle_path = Path("./autogradle")
 
 def test_1_1():
     filecode = submission_path / 'fatorial.c'
@@ -13,77 +14,38 @@ def test_1_1():
 
     def check_exec(inp, out):
         p = subprocess.run([filebin.absolute()], input=inp, capture_output=True, text=True)
-        assert(p.stdout == out)
+        assert(p.stdout.strip() == out)
 
     check_exec('0', '1')
     check_exec('1', '1')
     check_exec('5', '120')
 
-def test_2_2():
-    file = submission_path / '2_2.out'
-    assert(file.exists())
+def test_1_2():
+    filescript = submission_path / 'makefile-test.sh'
+    fruits = autogradle_path / 'fruits.txt'
+    vegetables = autogradle_path / 'vegetables.txt'
+    groceries = autogradle_path / 'groceries.txt'
 
-    with open(file) as fp:
-        content = fp.read().strip()
-        assert(content == "/home/ubuntu")
+    assert(filescript.exists())
 
-def test_2_3():
-    file = submission_path / '2_3.out'
-    assert(file.exists())
+    with open(fruits, mode='w') as f:
+        f.write('\n'.join(['Banana', 'Melancia']))
 
-    with open(file) as fp:
-        content = fp.read().strip()
-        assert(content == "mkdir: não foi possível criar o diretório “baz”: Arquivo existe")
+    with open(vegetables, mode='w') as f:
+        f.write('\n'.join(['Cebola', 'Tomate']))
 
-def test_2_4():
-    file = submission_path / '2_4.out'
-    assert(file.exists())
+    p = subprocess.run([filescript.absolute()], capture_output=True, text=True, cwd=autogradle_path.absolute())
 
-    with open(file) as fp:
-        content = fp.read().strip()
-        files = content.split('\n')
+    assert(p.returncode == 0)
 
-        assert('bin' in files)
-        assert('tmp' in files)
-        assert('dev' in files)
+    result = """cat groceries.txt
+Fruits:
+Banana
+Melancia
+Vegetables:
+Cebola
+Tomate
+"""
 
-def test_2_5():
-    file = submission_path / '2_5.out'
-    assert(file.exists())
-
-    with open(file) as fp:
-        content = fp.read().strip()
-        files = content.split('\n')
-
-        assert('Desktop' in files)
-
-
-def test_2_6():
-    file = submission_path / '2_6.out'
-    assert(file.exists())
-
-    with open(file) as fp:
-        content = fp.read().strip()
-        files = content.split('\n')
-
-        assert('.bashrc' in files)
-        assert('.bash_history' in files)
-
-def test_2_7():
-    file = submission_path / '2_7.out'
-    assert(file.exists())
-
-    with open(file) as fp:
-        content = fp.read().strip()
-        assert(content == "/root")
-
-def test_desafio():
-    file = submission_path / 'clmystery.sh'
-
-    with open(file) as fp:
-        lines = fp.readlines()
-
-    assert(len(lines) > 5)
-
-    assasino = lines[-1].strip()
-    assert('Rienne Lemeda' in assasino)
+    assert(result in p.stdout)
+    assert(not groceries.exists())

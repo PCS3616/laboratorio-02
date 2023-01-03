@@ -9,7 +9,7 @@ int fatorial(int n);
   int n;
   scanf("%d", &n);
 
-  printf("%dn", fatorial(n));
+  printf("%d\n", fatorial(n));
 
   return 0;
 }
