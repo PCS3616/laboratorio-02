@@ -721,7 +721,7 @@ regulares utilizam a mesma sintaxe e, para poder usar expressões
 regulares no seu dia-a-dia, você também precisa conhecê-la.
 
 A tabela abaixo é uma referência resumida dessa sintaxe (veja outras
-referências, mais completas, na seção [Recursos Adicionais](https://docs.google.com/document/d/1rR0LljQiR4ruykUaBRUKzEoD36OJDDmFOQgAdkQsIIs/edit?usp=sharing)).
+referências, mais completas, na seção [Recursos Adicionais](EXTRA.md)).
 
 ### **Referência**
 
@@ -840,8 +840,7 @@ Um nome próprio, com as seguintes restrições:
 
 ### **Entrega**
 
-Entregar um arquivo zip com nome `lab2-atv4-XXXXXX.zip` contendo um único
-arquivo chamado `regex.txt`.
+Entregar um o arquivo `regex.txt` na pasta `submission`.
 
 O arquivo deve conter uma linha para cada exercício da tabela acima.
 
