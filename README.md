@@ -194,40 +194,11 @@ executar o programa pelo terminal:
 ./foo
 ```
 
-**Exercício 1.1:** Utilize o template abaixo para criar o arquivo
-fatorial.c. Usando o vim, edite o arquivo de tal forma que o programa
+**Exercício 1.1:** Utilize o template abaixo para editar o arquivo
+`fatorial.c` fornecido na pasta `submission`.
+Usando o vim, edite o arquivo de tal forma que o programa
 funcione corretamente (veja os comentários no código). Em seguida,
 compile e execute o programa usando o gcc.
-
-**Template**:
-
-```c
-#include <stdio.h>
-
-int fatorial(int n);
-
-/**
-* Ponto de entrada do programa (entry point).
-*/
-int main(int argc, char** argv) {
-  int n;
-  scanf("%d", &n);
-
-  printf("%d\n", fatorial(n));
-
-  return 0;
-}
-
-/**
-* Calcula o fatorial do número recebido e retorna o resultado.
-*/
-int fatorial(int n) {
-  // Por enquanto, essa função não faz nada de muito útil... Ela apenas
-  // retorna o número recebido.
-  // Altere esta implementação para retornar o resultado correto.
-  return n;
-}
-```
 
 **Exemplo de execução:**
 
