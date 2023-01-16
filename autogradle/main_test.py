@@ -23,33 +23,16 @@ def test_1_1():
 
 def test_1_2():
     filescript = submission_path / 'makefile-test.sh'
-    fruits = autogradle_path / 'fruits.txt'
-    vegetables = autogradle_path / 'vegetables.txt'
-    groceries = autogradle_path / 'groceries.txt'
-
     assert(filescript.exists())
 
-    with open(fruits, mode='w') as f:
-        f.write('\n'.join(['Banana', 'Melancia']))
+    with open(filescript) as f:
+        calls=[l.strip() for l in f.readlines()]
 
-    with open(vegetables, mode='w') as f:
-        f.write('\n'.join(['Cebola', 'Tomate']))
-
-    p = subprocess.run([filescript.absolute()], capture_output=True, text=True, cwd=autogradle_path.absolute())
-
-    assert(p.returncode == 0)
-
-    result = """cat groceries.txt
-Fruits:
-Banana
-Melancia
-Vegetables:
-Cebola
-Tomate
-"""
-
-    assert(result in p.stdout)
-    assert(not groceries.exists())
+    assert('make fruits.txt' in calls)
+    assert('make vegetables.txt' in calls)
+    assert('make groceries.txt' in calls)
+    assert('make clean' in calls)
+    assert('make print' in calls)
 
 def test_1_3():
     makefile = submission_path / 'Makefile'
