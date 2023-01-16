@@ -772,11 +772,11 @@ Linhas de um arquivo que começam com um número de até dois dígitos,
 seguido por parênteses e por uma frase qualquer.
 A linha deve terminar com um ponto de interrogação.
 #### Exemplos válidos
-- 1) Qual o seu nome?
-- 01) Qual o seu nome? E a sua idade?
+- `1) Qual o seu nome?`
+- `01) Qual o seu nome? E a sua idade?`
 #### Exemplos inválidos
-- 01) Escreva o seu nome.
-- (01) Qual o seu nome?
+- `01) Escreva o seu nome.`
+- `(01) Qual o seu nome?`
 
 ### 2.4
 Um nome próprio, com as seguintes restrições:
