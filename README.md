@@ -504,19 +504,19 @@ um shell.
 
 A sintaxe básica de uma regra de um Makefile é:
 
-```bash
+```make
 # Sintaxe de uma regra.
 # Linhas que começam com '#', como estas, são comentários.
 
 targets : prerequisites
-recipe_line_1
-recipe_line_2
-...
-recipe_line_n
+        recipe_line_1
+        recipe_line_2
+        ... 
+        recipe_line_n
 ```
 
 Uma observação importante é que todas as linhas de uma receita devem
-começar com o caractere Tab (\\t). Por isso, atenção para usar Tabs e
+começar com o caractere <TAB> (\\t). Por isso, atenção para usar <TAB>s e
 não espaços. O seu editor de texto pode ser configurado (se já não
 estiver) para mostrar espaços em branco no texto, distinguindo tabs de
 espaços.
@@ -528,49 +528,53 @@ Makefile que define como construir um arquivo groceries.txt a partir de
 outros dois arquivos, fruits.txt e vegetables.txt. Quem nunca quis
 controlar a lista do supermercado usando Makefiles, certo?!
 
-```
-SHELL=/bin/bash                                                     
-                                                                    
+```make
+# Para saber o que a variavel abaixo faz, acesse
+# https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
+SHELL=/bin/bash
+# Existem varias outras variaveis especiais que podem ser configuradas em
+# Makefiles
+# https://www.gnu.org/software/make/manual/html_node/Special-Variables.html
+
 # Este Makefile contém 4 regras, descritas abaixo.
-                                                                    
-# Esta primeira regra contém apenas um target: o arquivo groceries.txt.                                                      
-# Para que o make consiga construir o arquivo, outros dois arquivos estão                                                               
+
+# Esta primeira regra contém apenas um target: o arquivo groceries.txt.
+# Para que o make consiga construir o arquivo, outros dois arquivos estão
 # listados como dependências: um com a lista de frutas e outro com a
-                                                                     
-# lista de legumes.                                                
+
+# lista de legumes.
 # Se as dependências forem satisfeitas, o make executa as linhas de
-# receita, que apenas imprime o conteúdo dos dois arquivos em um arquivo                                                             
-# final, acrescentando linhas de cabeçalho.                        
-# Importante: cada linha é executada em uma nova instância nova de um                                                                  
-# shell (o que significa, por exemplo, que variáveis definidas em uma                                                                 
-# linha não estarão disponíveis nas linhas seguintes).             
+# receita, que apenas imprime o conteúdo dos dois arquivos em um arquivo
+# final, acrescentando linhas de cabeçalho.
+# Importante: cada linha é executada em uma nova instância nova de um
+# shell (o que significa, por exemplo, que variáveis definidas em uma
+# linha não estarão disponíveis nas linhas seguintes).
 # -------------------------------------------------------------------------
-groceries.txt : fruits.txt vegetables.txt                           
-echo -e "Fruits:n" > groceries.txt                             
-cat fruits.txt >> groceries.txt                                   
-echo -e "nVegetables:n" >> groceries.txt                    
-cat vegetables.txt >> groceries.txt                               
-                                                                    
-# Esta regra contém dois targets. Nenhum deles tem dependências, e  a                                                                   
-# receita apenas imprime uma mensagem dizendo para o usuário criar  o                                                                   
-# arquivo correspondente.                                          
+groceries.txt : fruits.txt vegetables.txt
+	echo -e "Fruits:n" > groceries.txt
+	cat fruits.txt >> groceries.txt
+	echo -e "nVegetables:n" >> groceries.txt
+	cat vegetables.txt >> groceries.txt
+
+# Esta regra contém dois targets. Nenhum deles tem dependências, e  a
+# receita apenas imprime uma mensagem dizendo para o usuário criar  o
+# arquivo correspondente.
 # -------------------------------------------------------------------------
-fruits.txt vegetables.txt:                                          
-echo "Please create the file $@"                                 
-                                                                    
-# Esta é uma regra auxiliar. O target `clean` não é um arquivo que será                                                                
-# criado; a regra é basicamente um atalho para executar uma linha de                                                                  
-# comando. Nesse caso, a receita apaga o arquivo groceries.txt.    
+fruits.txt vegetables.txt:
+	echo "Please create the file $@"
+
+# Esta é uma regra auxiliar. O target `clean` não é um arquivo que será
+# criado; a regra é basicamente um atalho para executar uma linha de
+# comando. Nesse caso, a receita apaga o arquivo groceries.txt.
 # -------------------------------------------------------------------------
-clean:                                                              
-rm -f groceries.txt                                                 
-                                                                    
-# Esta é uma outra regra auxiliar, que imprime o conteúdo do arquivo de                                                                  
-# saída (o que significa que faz sentido listá-lo como              
-dependência).                                                       
+clean:
+	rm -f groceries.txt
+
+# Esta é uma outra regra auxiliar, que imprime o conteúdo do arquivo de
+# saída (o que significa que faz sentido listá-lo como dependência).
 # -------------------------------------------------------------------------
-print : groceries.txt                                               
-cat groceries.txt                                                    
+print : groceries.txt
+	cat groceries.txt                                                  
 ```
 
 ### **Como usar o make na linha de comando**
@@ -583,7 +587,8 @@ make <target>
 
 Com este comando, o make irá procurar um Makefile (que é apenas um
 arquivo com este nome) no mesmo diretório em que o comando foi executado
-(a opção -f pode ser usada caso o Makefile esteja em outro diretório).
+(a opção -f pode ser usada caso o Makefile esteja em outro diretório
+ou tenha outro nome).
 
 Em seguida, irá analisar o Makefile para encontrar uma regra que ensine
 como construir o *target* passado como parâmetro. Se o *target* tiver
@@ -602,7 +607,8 @@ exemplo acima. Em seguida, criar um shell script chamado
 makefile-test.sh que chama, um por um, todos os targets possíveis desse
 Makefile (dica: são 5).
 
-**Entrega:** Um shell script (`./makefile-test.sh` ) na pasta `submission`
+**Entrega:** Um shell script (`./makefile-test.sh` ) na pasta `submission`.
+Você **não** deve submeter o Makefile neste exercício.
 
 **Exercício 1.3:** criar um Makefile (usando o vim) para o programa do
 fatorial. O Makefile deve definir as seguintes regras:
