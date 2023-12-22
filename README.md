@@ -2,8 +2,6 @@
 
 # Ferramentas básicas
 
-### **Programação com vim, gcc, gdb e make**
-
 #### **Introdução**
 
 Nessa aula, você vai aprender para que servem e como usar algumas
@@ -90,67 +88,9 @@ linguagem de programação usada para desenvolvimento, enquanto o editor
 de texto e a ferramenta de build normalmente são independentes de uma
 linguagem.
 
-No restante do tutorial, vamos falar sobre um programa para cada
-ferramenta: **vim**, **gcc**, **gdb** e **make**.
+Neste tutorial, vamos falar sobre o compilador **gcc** a ferramenta de build **make**.
 
-## **Editor de texto: vim**
-
-O vim é um editor de texto usado diretamente pela linha de comando
-(apesar de também poder ser usado com uma interface gráfica). Para
-editar um arquivo de texto com o vim, basta digitar:
-
-```bash
-vim <caminho_para_o_arquivo>
-```
-
-Por exemplo:
-
-```bash
-vim ~/.bashrc
-```
-
-O vim funciona de uma maneira um pouco diferente da que você
-provavelmente está acostumado. Ele possui dois modos de operação
-distintos: modo de comando (*command mode*) e modo de edição (*insert
-mode*).
-
-O modo de comando, que é o modo em que o vim se encontra quando é
-iniciado, permite que você navegue pelo texto e faça alterações no
-arquivo usando\... *wait for it*\... comandos.
-
-Por exemplo, se você abrir um arquivo no vim, levar o cursor até uma
-determinada letra e apertar a tecla x, o caractere em que o cursor está
-posicionado será excluído, ao invés da letra \"x\" ser adicionada ao
-texto. Ou seja: **no modo de comando, as teclas do seu teclado servem
-para executar comandos, ao invés de inserir caracteres no texto.**
-
-O modo em que você usa o teclado para realmente digitar caracteres é o
-modo de edição. Para entrar no modo de edição, o comando é a tecla i ou
-a tecla insert. Se você estiver no modo de edição, o texto \-- INSERT
-\-- será mostrado no canto inferior esquerdo da tela.
-
-Sobre o modo de edição não há muito o que falar porque, neste modo, o
-vim se comporta como qualquer editor comum.
-
-Sobre o modo de comando, o que você precisa saber são os comandos. Vamos
-mostrar alguns aqui, mas existem muitos outros. A tabela abaixo lista
-alguns dos mais comuns:
-
- |**Comando**  |**Descrição**
- |-------------|------------------------------------------------------------
- |:q           |Sai do editor (*quit*)
- |:w           |Salva o arquivo (*write*)
- |:wq          |Salva o arquivo e sai (*write and quit*)
- |:q!          |Sai do editor (descartando alterações não salvas)
- |i            |Entra no modo de edição (*insert mode*)
- |Esc          |Entra no modo de comando (*command mode*)
- |j, k, l, h   |Move o cursor para baixo, cima, direita e esquerda, respectivamente
- |gg           |Move o cursor para o início do arquivo
- |Shift + g    |Move o cursor para o final do arquivo
- |\$           |Move o cursor para o final da linha
- |0            |Move o cursor para o início da linha
- |:N           |Move o cursor para a linha N
- |dd           |Apaga a linha atual
+Na próxima aula será abordado o debugger **gdb**.
 
 ## **Compilador: gcc**
 
@@ -187,281 +127,9 @@ Por exemplo:
 gcc -o foo foo.c
 ```
 
-Depois de executar esse comando, se não houver nenhum erro, você poderá
-executar o programa pelo terminal:
+## **Ferramenta de build: make**
 
-```bash
-./foo
-```
-
-**Exercício 1.1:** Utilize o template abaixo para editar o arquivo
-`fatorial.c` fornecido na pasta `submission`.
-Usando o vim, edite o arquivo de tal forma que o programa
-funcione corretamente (veja os comentários no código). Em seguida,
-compile e execute o programa usando o gcc.
-
-**Exemplo de execução:**
-
-```bash
-$ ./fatorial
-4
-24
-```
-
-**Entrega**: o arquivo `fatorial.c` na pasta `submission`
-
-**Atenção**: o algoritmo será corrigido automaticamente. Para que ele
-possa funcionar corretamente, em todo o corpo do código, receba apenas
-um único número de entrada e imprima uma única saída, o fatorial
-correspondente. Caso o código apresente falha de execução ou não passe
-em todos os testes de avaliação, você poderá editá-lo e submetê-lo
-novamente.
-
-## **Debugger: gdb**
-
-O gbd é um **debugger**: um programa que permite acompanhar a execução
-de um programa e também interferir nela. O gdb funciona com muitas
-linguagens, mas as mais comuns são C e C++.
-
-O uso do gdb será demonstrado a partir do exemplo abaixo, que mostra
-como descobrir a causa de um erro de *segmentation fault* em um
-programa. Esse exemplo é uma tradução/adaptação do original disponível
-[aqui](http://www.unknownroad.com/rtfm/gdbtut/gdbsegfault.html).
-
-### Usando o gdb para resolver um problema de *segfault*
-
-Neste exemplo, você irá aprender a usar o gdb para descobrir por que o
-programa abaixo, quando executado, causa um erro de *segmentation
-fault*.
-
-O programa deveria ler uma linha de texto do usuário e imprimi-la. No
-entanto, veremos que, do jeito como está, o resultado não é exatamente
-esse\...
-
-**Versão inicial (com bug) do programa:**
-
-  ```c
-  #include <stdio.h>
-  #include <stdlib.h>
-  
-  int main(int argc, char **argv) {
-    printf("Digite um texto qualquer e pressione Enter ao final:n");
-    
-    char *buf;
-    buf = malloc(1<<31);
-    fgets(buf, 1024, stdin);
-    
-    printf("Texto digitado foi:n");
-    printf("%s\n", buf);
-    
-    return 1;
-  }
-  ```
-
-Crie um arquivo chamado segfault-example.c, com o conteúdo acima.
-Compile o arquivo usando o gcc e o execute, para verificarmos se
-realmente existe um problema:
-
-```bash
-gcc -o segfault-example segfault-example.c
-./segfault-example
-```
-
-Você deve ter observado que, realmente, o programa termina com erro
-antes de imprimir a linha digitada pelo usuário. Vamos usar o gdb,
-então, para descobrir o motivo.
-
-O primeiro passo é recompilar o arquivo usando a flag -g, que faz com
-que o gcc compile o programa de uma forma ligeiramente diferente,
-incluindo símbolos que serão usados pelo gdb.
-
-```bash
-gcc -g -o segfault-example segfault-example.c
-```
-
-Agora, execute o programa novamente, dessa vez pelo gdb:
-
-```bash
-$ gdb segfault-example
-# [várias linhas na saída, omitidas]
-Reading symbols from segfault-example...done.
-(gdb)
-```
-
-Nesse ponto, o gdb está pronto e aguardando instruções. Para começar,
-vamos simplesmente executar o programa usando o comando run e ver o que
-acontece:
-
-```bash
-(gdb) run
-Starting program:
-/home/deborasetton/Documents/Mestrado/Monitoria/PCS3616-Systems-Programming/aula2/segfault-example
-Digite um texto qualquer e pressione Enter ao final:
-QUALQUER COISA AQUI
-
-Program received signal SIGSEGV, Segmentation fault.
-__GI__IO_getline_info (fp=fp@entry=0x7ffff7dd3980 <_IO_2_1_stdin_>, buf=buf@entry=0x0,
-n=1022, delim=delim@entry=10, extract_delim=extract_delim@entry=1, eof=eof@entry=0x0) at
-iogetline.c:86
-86 iogetline.c: No such file or directory.
-(gdb)
-```
-
-O gdb executa o programa até onde consegue e para novamente, informando
-que recebeu o sinal SIGSEGV do sistema operacional. Isso significa que o
-programa tentou acessar uma região de memória inválida.
-
-Vamos usar o comando backtrace para descobrir onde exatamente o programa
-travou:
-
-```bash
-(gdb) backtrace
-#0 __GI__IO_getline_info (fp=fp@entry=0x7ffff7dd3980
-<_IO_2_1_stdin_>, buf=buf@entry=0x0, n=1022, delim=delim@entry=10,
-extract_delim=extract_delim@entry=1, eof=eof@entry=0x0) at
-iogetline.c:86
-#1 0x00007ffff7a7f188 in __GI__IO_getline
-(fp=fp@entry=0x7ffff7dd3980 <_IO_2_1_stdin_>, buf=buf@entry=0x0,
-n=<optimized out>, delim=delim@entry=10,
-extract_delim=extract_delim@entry=1) at iogetline.c:38
-#2 0x00007ffff7a7dfc4 in _IO_fgets (buf=0x0, n=<optimized out>,
-fp=0x7ffff7dd3980 <_IO_2_1_stdin_>) at iofgets.c:56
-#3 0x0000000000400647 in main (argc=1, argv=0x7fffffffd5c8) at
-segfault-example.c:10
-(gdb)
-```
-
-Repare que a saída do comando faz referência a alguns arquivos que o
-programa usa, mas que não fomos nós que escrevemos, como iogetline.c e
-iofgets.c.
-
-Como estamos interessados no nosso próprio código, vamos usar o comando
-frame para ir até o frame **3**, que é o frame que fala sobre o nosso
-arquivo, segfault-example.c:
-
-```bash
-(gdb) frame 3
-#3 0x0000000000400647 in main (argc=1, argv=0x7fffffffd5c8) at
-segfault-example.c:10
-10 fgets(buf, 1024, stdin);
-(gdb)
-```
-
-Ok, então o programa travou na chamada à função fgets. De maneira geral,
-sempre podemos assumir que funções da biblioteca padrão, como esta,
-estão funcionando \-- se este não for o caso, o problema é muito maior.
-
-Portanto, o problema deve estar em um dos 3 argumentos que passamos para
-a função. Talvez você não saiba, mas stdin é uma variável global que é
-criada pela biblioteca stdio, então este argumento podemos assumir que
-está ok. Resta o argumento buf.
-
-Vamos usar o comando print para inspecionar o valor desta variável:
-
-```bash
-(gdb) print buf
-$1 = 0x0
-(gdb)
-```
-
-O valor da variável é 0x0, que é o ponteiro nulo. Isso não é o que
-queremos \-- buf deveria apontar para uma área de memória que foi
-alocada na chamada ao malloc (veja o código).
-
-Portanto, vamos ter que descobrir o que aconteceu aqui. Mas antes,
-podemos encerrar a instância atual do programa (que já nos deu
-informações suficientes e não tem mais o que executar) usando o comando
-kill:
-
-```bash
-(gdb) kill
-Kill the program being debugged? (y or n) y
-(gdb)
-```
-
-Após este comando, estamos novamente no início do gdb. Desta vez, vamos
-colocar um breakpoint na linha do código que chama o malloc:
-
-```bash
-(gdb) break segfault-example.c:9
-Breakpoint 1 at 0x40062f: file segfault-example.c, line 9.
-(gdb)
-```
-
-Agora, vamos rodar o programa novamente:
-
-```bash
-(gdb) run
-Starting program:
-/home/deborasetton/Documents/Mestrado/Monitoria/PCS3616-Systems-Programming/aula2/segfault-example
-Digite um texto qualquer e pressione Enter ao final:
-
-Breakpoint 1, main (argc=1, argv=0x7fffffffd5c8) at segfault-example.c:9
-9 buf = malloc(1<<31);
-(gdb)
-```
-
-Primeiro, vamos ver qual é o valor de buf antes da chamada ao malloc,
-usando o comando print. Uma vez que essa variável ainda não foi
-inicializada, esperamos que o valor seja inválido, e realmente é:
-
-```bash
-(gdb) print buf
-$1 = 0x0
-(gdb)
-```
-
-Agora, vamos usar o comando next para executar apenas esta linha de
-código e parar novamente, para podermos ver o que aconteceu com a
-variável:
-
-```bash
-(gdb) next
-10 fgets(buf, 1024, stdin);
-(gdb) print buf
-$2 = 0x0
-(gdb)
-```
-
-Após a chamada, verificamos que buf continua inválido, apontando para
-NULL. Por quê? Se você consultar a documentação do malloc, descobrirá
-que essa função retorna NULL quando não consegue alocar a quantidade de
-memória solicitada. Portanto, a chamada ao malloc feita pelo nosso
-programa deve ter falhado. Vamos olhar esssa chamada novamente:
-
-```
-buf = malloc(1<<31);
-```
-
-Bom\... O valor da expressão 1 \<\< 31 (o inteiro 1 deslocado 31 bits à
-esquerda) é 429497295 ou 4GB. Poucos sistemas operacionais alocariam
-esta quantidade de memória para um único programa, a não ser com
-configurações especiais, então é claro que o malloc falhou. Além disso,
-nós só estamos lendo 1024 bytes com o fgets, então para que alocar tanta
-memória?
-
-Mude o valor 1\<\<31 no código-fonte para 1024, compile e execute o
-programa novamente:
-
-```bash
-$ gcc -o segfault-example segfault-example.c
-$ ./segfault-example
-Digite um texto qualquer e pressione Enter ao final:
-QUALQUER COISA AQUI
-Texto digitado foi:
-QUALQUER COISA AQUI
-```
-
-Problema resolvido! \\o/
-
-E agora você sabe como depurar segfaults usando o gdb, o que é
-extremamente útil. Finalmente, este exemplo também ilustra um outro
-ponto muito importante: **sempre verifique o valor retornado pelo
-malloc!**
-
-## **Debugger: make**
-
-A última ferramenta de que vamos falar aqui é o make, que permite a
+A ferramenta make permite a
 automatização de muitas operações, e é comumente utilizado para
 gerenciar o processo de build de um software.
 
@@ -524,7 +192,7 @@ espaços.
 ### **Exemplo de Makefile**
 
 Saindo um pouco do contexto de programação, o arquivo abaixo é um
-Makefile que define como construir um arquivo groceries.txt a partir de
+Makefile que define como construir um arquivo food.txt a partir de
 outros dois arquivos, fruits.txt e vegetables.txt. Quem nunca quis
 controlar a lista do supermercado usando Makefiles, certo?!
 
@@ -538,7 +206,7 @@ SHELL=/bin/bash
 
 # Este Makefile contém 4 regras, descritas abaixo.
 
-# Esta primeira regra contém apenas um target: o arquivo groceries.txt.
+# Esta primeira regra contém apenas um target: o arquivo food.txt.
 # Para que o make consiga construir o arquivo, outros dois arquivos estão
 # listados como dependências: um com a lista de frutas e outro com a
 
@@ -550,11 +218,11 @@ SHELL=/bin/bash
 # shell (o que significa, por exemplo, que variáveis definidas em uma
 # linha não estarão disponíveis nas linhas seguintes).
 # -------------------------------------------------------------------------
-groceries.txt : fruits.txt vegetables.txt
-	echo -e "Fruits:n" > groceries.txt
-	cat fruits.txt >> groceries.txt
-	echo -e "nVegetables:n" >> groceries.txt
-	cat vegetables.txt >> groceries.txt
+food.txt : fruits.txt vegetables.txt
+	echo -e "Fruits:n" > food.txt
+	cat fruits.txt >> food.txt
+	echo -e "nVegetables:n" >> food.txt
+	cat vegetables.txt >> food.txt
 
 # Esta regra contém dois targets. Nenhum deles tem dependências, e  a
 # receita apenas imprime uma mensagem dizendo para o usuário criar  o
@@ -565,16 +233,16 @@ fruits.txt vegetables.txt:
 
 # Esta é uma regra auxiliar. O target `clean` não é um arquivo que será
 # criado; a regra é basicamente um atalho para executar uma linha de
-# comando. Nesse caso, a receita apaga o arquivo groceries.txt.
+# comando. Nesse caso, a receita apaga o arquivo food.txt.
 # -------------------------------------------------------------------------
 clean:
-	rm -f groceries.txt
+	rm -f food.txt
 
 # Esta é uma outra regra auxiliar, que imprime o conteúdo do arquivo de
 # saída (o que significa que faz sentido listá-lo como dependência).
 # -------------------------------------------------------------------------
-print : groceries.txt
-	cat groceries.txt                                                  
+print : food.txt
+	cat food.txt                                                  
 ```
 
 ### **Como usar o make na linha de comando**
@@ -595,14 +263,14 @@ como construir o *target* passado como parâmetro. Se o *target* tiver
 dependências pendentes, elas serão construídas primeiro, e assim por
 diante.
 
-Por exemplo, para construir o arquivo groceries.txt usando o Makefile
+Por exemplo, para construir o arquivo food.txt usando o Makefile
 acima:
 
 ```bash
-make groceries.txt
+make food.txt
 ```
 
-**Exercício 1.2:** criar um Makefile (usando o vim) com o conteúdo do
+**Exercício 1.1:** criar um Makefile com o conteúdo do
 exemplo acima. Em seguida, criar um shell script chamado
 makefile-test.sh que chama, um por um, todos os targets possíveis desse
 Makefile (dica: são 5).
@@ -610,7 +278,7 @@ Makefile (dica: são 5).
 **Entrega:** Um shell script (`./makefile-test.sh` ) na pasta `submission`.
 Você **não** deve submeter o Makefile neste exercício.
 
-**Exercício 1.3:** criar um Makefile (usando o vim) para o programa do
+**Exercício 1.2:** criar um Makefile para o programa do
 fatorial. O Makefile deve definir as seguintes regras:
 
 1.  Compilar o arquivo fatorial.c (com o método main() ) usando o gcc. O
@@ -619,11 +287,7 @@ fatorial. O Makefile deve definir as seguintes regras:
 2.  Executar o arquivo fatorial, caso ele exista. Esta regra não deve
     compilar o arquivo, apenas chamar o executável. Nome do target: run.
 
-3.  Executar o arquivo no gdb. Na receita, você deve compilar o arquivo
-    com a flag necessária para usar o gdb e, em seguida, chamar o
-    executável. Nome do target: run_gdb.
-
-4.  Remover o executável. Nome do target: clean.
+3.  Remover o executável. Nome do target: clean.
 
 **Entrega:** Um arquivo `Makefile` na pasta `submission`.
 

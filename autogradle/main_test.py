@@ -5,22 +5,6 @@ import re
 submission_path = Path("./submission")
 autogradle_path = Path("./autogradle")
 
-def test_1_1():
-    filecode = submission_path / 'fatorial.c'
-    filebin = submission_path / 'fatorial'
-    assert(filecode.exists())
-
-    # Compile
-    subprocess.call(["gcc", "-o", filebin.absolute(), filecode.absolute()])
-
-    def check_exec(inp, out):
-        p = subprocess.run([filebin.absolute()], input=inp, capture_output=True, text=True)
-        assert(p.stdout.strip() == out)
-
-    check_exec('0', '1')
-    check_exec('1', '1')
-    check_exec('5', '120')
-
 def test_1_2():
     filescript = submission_path / 'makefile-test.sh'
     assert(filescript.exists())
@@ -30,7 +14,7 @@ def test_1_2():
 
     assert('make fruits.txt' in calls)
     assert('make vegetables.txt' in calls)
-    assert('make groceries.txt' in calls)
+    assert('make food.txt' in calls)
     assert('make clean' in calls)
     assert('make print' in calls)
 
@@ -51,9 +35,6 @@ def test_1_3():
     assert(p.returncode == 0)
     assert(executable.exists())
     assert('is up to date' in p.stdout)
-
-    p = subprocess.run(['make', 'run_gdb'], input='r\n5\nq\n', capture_output=True, text=True, cwd=makefile.parent.absolute())
-    assert(p.returncode == 0)
 
     p = subprocess.run(['make', 'clean'], capture_output=True, text=True, cwd=makefile.parent.absolute())
     assert(p.returncode == 0)

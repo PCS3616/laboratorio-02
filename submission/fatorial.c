@@ -18,8 +18,9 @@ int fatorial(int n);
 * Calcula o fatorial do número recebido e retorna o resultado.
 */
 int fatorial(int n) {
-  // Por enquanto, essa função não faz nada de muito útil... Ela apenas
-  // retorna o número recebido.
-  // Altere esta implementação para retornar o resultado correto.
-  return n;
+  int fat = 1;
+  int i;
+  for(i = 2; i < (n+1); i ++)
+    fat = fat*i;
+  return fat;
 }
