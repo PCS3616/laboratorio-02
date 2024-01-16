@@ -87,4 +87,3 @@ def test_2():
 
     print(f"\nNota final: {round(10*acertos/16, 2)}")
     assert (acertos == 16)
-
